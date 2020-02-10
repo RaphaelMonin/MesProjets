@@ -7,3 +7,5 @@ $ python3 tabledef.py
 $ python3 queriddle.py
 
 Puis aller sur : 127.0.0.1:5000
+
+Cependant, sans les dossiers asset, upload, upload_subject, le site ne peut pas (bien) fonctionner.
