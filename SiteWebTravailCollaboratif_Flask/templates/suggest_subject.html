@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Queriddle</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
+</head>
+<body>
+    <script>
+        var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+        $(document).ready(function() {
+
+            window.sessionStorage['aChoisiAnnee'] = "False"
+            window.sessionStorage['aChoisiMatiere'] = "False"
+            window.sessionStorage['aChoisiFichier'] = "False"
+            window.sessionStorage['choixAnnee'] = "False"
+            window.sessionStorage['choixMatiere'] = "False"
+
+            $('#an').change(function() {
+                window.sessionStorage['choixAnnee'] = $('#an option:selected').text();
+                window.sessionStorage['aChoisiAnnee'] = "True"
+                $('input[name=annee]').val(window.sessionStorage['choixAnnee']);
+                $('#mat').empty();
+                socket.emit( 'changeMat', {
+                    annee : window.sessionStorage['choixAnnee']
+                } )
+            })
+
+            socket.on('effChangeMat', function( msg ) {
+                $('#mat').append('<option value="" selected disabled hidden>Matiere</option>')
+                for (var i = 0 ; i < msg.length ; i++) {
+                    $('#mat').append('<option value="">'+msg[i]+'</option>');
+                }
+                }
+            )
+
+            $('#mat').change(function() {
+                window.sessionStorage['choixMatiere'] = $('#mat option:selected').text();
+                window.sessionStorage['aChoisiMatiere'] = "True"
+                $('input[name=matiere]').val(window.sessionStorage['choixMatiere']);
+            })
+
+            $('input[name=file]').change(function() {
+                window.sessionStorage['aChoisiFichier'] = "True"
+            })
+
+            $("#form1").on("submit",function(e) {
+                if (window.sessionStorage['aChoisiAnnee'] === "True" && window.sessionStorage['aChoisiMatiere'] === "True" && window.sessionStorage['aChoisiFichier'])
+                    return true;
+                else {
+                    alert("Vous devez selectionner une année, une matière et déposer un fichier pour envoyer un sujet");
+                    return false;
+                }
+            })
+        })
+    </script>
+    {% include 'head.html' %}
+    <h1>Proposition d'un nouveau sujet</h1>
+    <div id="choix">
+        <h3>Choisi l'année et la matière du sujet que tu proposes</h3>
+            <select id="an">
+                <option value="" selected disabled hidden>Annee</option>
+                {% for annee in annees %}
+                    <option value="">{{ annee[0] }}</option>
+                {% endfor %}
+            </select>
+            <select id="mat">
+                <option value="" selected disabled hidden>Matiere</option>
+            </select>
+    </div>
+
+    <div id="upload">
+        <h3>Nomme, fais glisser et envoie le fichier</h3>
+                <form id="form1" action="/upload_sujet" method="POST" enctype="multipart/form-data">
+                    <div class="tooltip">
+                        <input type="hidden" name="utilisateur" value="{{ myUsername }}">
+                        <input type="hidden" name="annee" value="False">
+                        <input type="hidden" name="matiere" value="False">
+                        <input type="text" name="nom_fichier" value="Nom du fichier">
+                        <input type="file" name="file">
+                        <input type="submit" value="Envoyer">
+                    </div>
+                </form>
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% for m in messages %}
+                            {{ m }}
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+    </div>
+</body>
+</html>

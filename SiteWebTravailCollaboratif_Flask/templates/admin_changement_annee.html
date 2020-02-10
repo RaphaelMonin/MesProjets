@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Queriddle</title>
+    <style>
+        #main{
+            display: flex;
+            justify-content: space-around;
+            margin-left: 300px;
+            margin-right: 300px;
+        }
+        h1, #ajout{
+            text-align: center;
+        }
+        #boutons_submit{
+            width: 150px;
+            height: 100px;
+            white-space: pre-wrap;
+            cursor: pointer;
+            font-size: 1em;
+            border: 5px solid black;
+            border-radius: 5px;
+            padding: 10px;
+        }
+        #boutons_delete{
+            width: 150px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    {% include 'head.html' %}
+    <br>
+    <br>
+    <h1>Années</h1>
+    <div id="ajout">
+        <form action="http://0.0.0.0:5000/ajouter_annee" method="POST" enctype="multipart/form-data">
+            <input type="text" value="Nouvelle annee" name="annee">
+            <input type="submit" value="Ajouter" style="cursor: pointer">
+        </form>
+    </div>
+    <br>
+    <br>
+    <div id="main">
+        {% for annee in annees %}
+            <div>
+                <form action="http://0.0.0.0:5000/admin_changement_matiere/{{ annee[0] }}" method="get">
+                    <input id="boutons_submit" type="submit" value="{{ annee[0] }}">
+                </form>
+                <form action="http://0.0.0.0:5000/supprimer_annee" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" value="{{ annee[0] }}" name="annee">
+                    <input id="boutons_delete" type="submit" value="Supprimer">
+                </form>
+            </div>
+        {% endfor %}
+    </div>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for m in messages %}
+                {{ m }}
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</body>
+</html>

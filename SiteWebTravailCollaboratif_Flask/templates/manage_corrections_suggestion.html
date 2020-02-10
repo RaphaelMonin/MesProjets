@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Queriddle</title>
+</head>
+<body>
+    {% include 'head.html' %}
+    <h1>Liste des corrections proposées</h1>
+    {% for annee in annees %}
+        <h2>{{ annee[0] }}</h2>
+        {% for matiere in annee[1] %}
+            <h4>{{ matiere[0] }}</h4>
+            {% for sujet in matiere[1] %}
+                <h6>{{ sujet[0] }}</h6>
+                {% for proposition in sujet[1] %}
+                    <div>
+                        {% if proposition %}
+                            <p>{{ proposition }}</p>
+                            <form action="/supprimer_proposition_correction" method="POST">
+                                <input type="hidden" name="lien" value="static/upload/{{ annee[0] }}/{{ matiere[0] }}/{{ sujet[0] }}/{{ proposition }}">
+                                <input type="submit" value="rejeter">
+                            </form>
+                            <form action="/ajouter_proposition_correction" method="POST">
+                                <input type="hidden" name="lien" value="static/upload/{{ annee[0] }}/{{ matiere[0] }}/{{ sujet[0] }}/{{ proposition }}">
+                                <input type="hidden" name="matiere" value="{{ matiere[0] }}">
+                                <input type="hidden" name="annee" value="{{ annee[0] }}">
+                                <input type="hidden" name="proposition" value="{{ proposition }}">
+                                <input type="submit" value="ajouter">
+                            </form>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        {% endfor %}
+    {% endfor %}
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Queriddle</title>
+    <link rel="stylesheet" href="/static/head.css" type="text/css">
+</head>
+<body>
+    <div id="entete">
+        <img src="/static/logo.png">
+        <div id="Accueil">
+            <form action="http://0.0.0.0:5000">
+                <input id="bouton" type="submit" value="Page principale">
+            </form>
+        </div>
+        <div id="statut">
+            <p id="username">{{ myUsername }}</p>
+            <form action="http://0.0.0.0:5000/my_account">
+                <input id="bouton" type="submit" value="Mon compte">
+            </form>
+            <form action="http://0.0.0.0:5000/administrateur">
+                <input id="bouton" type="submit" value="Admin">
+            </form>
+            <form action="http://0.0.0.0:5000/logout">
+                <input id="bouton" type="submit" value="Se déconnecter">
+            </form>
+        </div>
+    </div>
+</body>
+</html>

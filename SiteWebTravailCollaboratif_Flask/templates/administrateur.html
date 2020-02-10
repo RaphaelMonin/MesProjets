@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Queriddle</title>
+    <style>
+        #main{
+            display: flex;
+            justify-content: space-around;
+        }
+        h1{
+            text-align: center;
+        }
+        #boutons{
+            width: 280px;
+            height: 200px;
+            white-space: pre-wrap;
+            cursor: pointer;
+            font-size: 1em;
+            border: 5px solid black;
+            border-radius: 5px;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    {% include 'head.html' %}
+    <br>
+    <h1>Administration</h1>
+    <br>
+    <br>
+    <div id="main">
+        <form id="Suj" action="http://0.0.0.0:5000/manage_subjects_suggestion" method="get">
+            <input id="boutons" type="submit" value="Gérer les propositions de sujets">
+        </form>
+        <form id="Suj" action="http://0.0.0.0:5000/manage_corrections_suggestion" method="get">
+            <input id="boutons" type="submit" value="Gérer les propositions de corrections">
+        </form>
+        <form id="Suj" action="http://0.0.0.0:5000/manage_accounts" method="get">
+            <input id="boutons" type="submit" value="Gérer les demandes de création de comptes et les statuts">
+        </form>
+        <form id="Suj" action="http://0.0.0.0:5000/admin_changement_annee" method="get">
+            <input id="boutons" type="submit" value="Gérer les années, les matières et les sujets">
+        </form>
+    </div>
+</body>
+</html>

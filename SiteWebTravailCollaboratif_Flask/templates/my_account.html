@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <style>
+        h1, div{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        $(document).ready(function(){
+            $('#form').on("submit", function() {
+                if (confirm("Souhaitez-vous vraiment modifier votre pseudo et votre mot de passe ?")) {
+                    return true;
+                } else {
+                    return false;
+                }
+            })
+        })
+    </script>
+    {% include 'head.html' %}
+    <br>
+    <h1>Mon compte</h1>
+    <div>
+        <p>Pseudo : {{ myUsername }}</p>
+        <form id="form" action="/ask_modify_account" method="post">
+            <input type="hidden" name="email" value="{{ myEmail }}">
+            <input type="submit" value="Modifier mon pseudo et mon mot de passe">
+        </form>
+        <p>Email : {{ myEmail }}</p>
+        <p>Status : {{ myStatus }}</p>
+        <p>Annee : {{ myAnnee }}</p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #main{
+            display: flex;
+            justify-content: space-around;
+        }
+        h1{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    {% include 'head.html' %}
+    <h1>Liste des utilisateurs</h1>
+    <br>
+    <div id="main">
+        <div>
+            <h3>Statut : en attente</h3>
+            {% for u in en_attentes %}
+                <p>Pseudo : {{ u.username }} - Email : {{ u.email }}</p>
+                <form action="/Upgrade" method="post">
+                    <input type="hidden" name="statut" value="{{ u.status }}">
+                    <input type="hidden" name="pseudo" value="{{ u.username }}">
+                    <input type="submit" value="Accepter compte" >
+                </form>
+                <form action="/Degrade" method="post">
+                    <input type="hidden" name="statut" value="{{ u.status }}">
+                    <input type="hidden" name="pseudo" value="{{ u.username }}">
+                    <input type="submit" value="Refuser compte" >
+                </form>
+            {% endfor %}
+        </div>
+        <div>
+            <h3>Statut : utilisateur</h3>
+            {% for u in utilisateurs %}
+                <p>Pseudo : {{ u.username }} - Email : {{ u.email }}</p>
+                <form action="/Upgrade" method="post">
+                    <input type="hidden" name="statut" value="{{ u.status }}">
+                    <input type="hidden" name="pseudo" value="{{ u.username }}">
+                    <input type="submit" value="Promouvoir contributeur" >
+                </form>
+                <form action="/Degrade" method="post">
+                    <input type="hidden" name="statut" value="{{ u.status }}">
+                    <input type="hidden" name="pseudo" value="{{ u.username }}">
+                    <input type="submit" value="Mettre compte en attente" >
+                </form>
+            {% endfor %}
+        </div>
+        <div>
+            <h3>Statut : contributeur</h3>
+            {% for u in contributeurs %}
+                <p>Pseudo : {{ u.username }} - Email : {{ u.email }}</p>
+                <form action="/Upgrade" method="post">
+                    <input type="hidden" name="statut" value="{{ u.status }}">
+                    <input type="hidden" name="pseudo" value="{{ u.username }}">
+                    <input type="submit" value="Promouvoir administrateur" >
+                </form>
+                <form action="/Degrade" method="post">
+                    <input type="hidden" name="statut" value="{{ u.status }}">
+                    <input type="hidden" name="pseudo" value="{{ u.username }}">
+                    <input type="submit" value="Destituer contributeur" >
+                </form>
+            {% endfor %}
+        </div>
+        <div>
+            <h3>Statut : administrateur</h3>
+            {% for u in administrateurs %}
+                <p>Pseudo : {{ u.username }} - Email : {{ u.email }}</p>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
